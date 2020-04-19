@@ -1,0 +1,25 @@
+{
+  "name": "signalk-yd-alarm-button",
+  "version": "1.0.0",
+  "description": "Signal K Plugin To Control And Configure a Yacht Devices TDAB-01",
+  "main": "index.js",
+  "keywords": [
+    "signalk-node-server-plugin"
+  ],
+  "author": "Sott Bender <scott@scottbender.net>",
+  "repository": "https://github.com/sbender9/signalk-yd-alarm-button.git",
+  "scripts": {
+    "format": "prettier-standard 'src/*.ts'",
+    "build": "tsc",
+    "watch": "npm run build -- -w"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "prettier-standard": "^16.2.1",
+    "typescript": "^3.0.3"
+  }
+}
