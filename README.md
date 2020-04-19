@@ -10,7 +10,7 @@ You can assign different sounds to different noticiation states (warning, alert,
 
 You can also assign different sounds based on the notification path.
 
-The plugin will configure the bank of the device and the volue.
+The plugin will configure the bank of the device and the volume.
 
 
 https://yachtdevicesus.com/collections/digital-switching/products/alarm-button-ydab-01
