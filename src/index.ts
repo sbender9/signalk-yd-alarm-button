@@ -40,10 +40,13 @@ export default function (app: any) {
   const plugin: Plugin = {
     start: function (props: any) {
       lastProps = props
-      sendCommand(`BANK ${props.bank}`)
+      //sendCommand("MODE DS")
       setTimeout(() => {
-        sendCommand(`VOLUME ${props.volume}`)
-      }, 1000)
+        sendCommand(`BANK ${props.bank}`)
+        setTimeout(() => {
+          sendCommand(`VOLUME ${props.volume}`)
+        }, 1000)
+      }, 5000)
 
       stateSoundMappings = {
         alert: props.alertSound,
@@ -236,7 +239,8 @@ export default function (app: any) {
     const pgn: any = {
       pgn: 127502,
       dst: lastProps.deviceAddress,
-      'Switch Bank Instance': lastProps.bank
+      'Switch Bank Instance': lastProps.bank,
+      "Instance": lastProps.bank
     }
 
     for (let i: number = 1; i < 29; i++) {
@@ -249,7 +253,8 @@ export default function (app: any) {
     const pgn: any = {
       pgn: 127502,
       dst: lastProps.deviceAddress,
-      'Switch Bank Instance': lastProps.bank
+      'Switch Bank Instance': lastProps.bank,
+      "Instance": lastProps.bank
     }
     
     for (let i: number = 1; i < 29; i++) {
