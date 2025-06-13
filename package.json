@@ -1,6 +1,6 @@
 {
   "name": "signalk-yd-alarm-button",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Signal K Plugin To Control And Configure a Yacht Devices TDAB-01",
   "main": "index.js",
   "keywords": [
