@@ -162,34 +162,36 @@ export default function (app: any) {
   function gotDelta (notification: any) {
     let changed = false
     notification.updates.forEach(function (update: any) {
-      update.values.forEach(function (value: any) {
-        if (
-          value.value != null &&
-          typeof value.value.state != 'undefined' &&
-          typeof value.value.method != 'undefined' &&
-          value.value.method.indexOf('sound') != -1
-        ) {
+      if ( update.values ) {
+        update.values.forEach(function (value: any) {
           if (
-            value.value.state !== 'normal' &&
-            value.value.state !== 'nominal'
+            value.value != null &&
+              typeof value.value.state != 'undefined' &&
+              typeof value.value.method != 'undefined' &&
+              value.value.method.indexOf('sound') != -1
           ) {
-            const sound: number = getSoundForNotification(value.path, value.value)
-            if ( sound !== 0 ) {
-              activeNotifications[value.path] = value.value
+            if (
+              value.value.state !== 'normal' &&
+                value.value.state !== 'nominal'
+            ) {
+              const sound: number = getSoundForNotification(value.path, value.value)
+              if ( sound !== 0 ) {
+                activeNotifications[value.path] = value.value
+                changed = true
+                app.debug('adding %s', value.path)
+              }
+            } else if (activeNotifications[value.path]) {
+              delete activeNotifications[value.path]
               changed = true
-              app.debug('adding %s', value.path)
+              app.debug('removed %s', value.path)
             }
           } else if (activeNotifications[value.path]) {
             delete activeNotifications[value.path]
-            changed = true
             app.debug('removed %s', value.path)
+            changed = true
           }
-        } else if (activeNotifications[value.path]) {
-          delete activeNotifications[value.path]
-          app.debug('removed %s', value.path)
-          changed = true
-        }
-      })
+        })
+      }
     })
     if ( changed ) {
       updateSound()
