@@ -13,6 +13,11 @@
  * limitations under the License.
  */
 
+import {
+  PGN_126208_NmeaCommandGroupFunction,
+  PGN_127502,
+  convertCamelCase
+} from '@canboat/ts-pgns'
 import { isUndefined } from 'util'
 const _ = require('lodash')
 const util = require('util')
@@ -220,47 +225,40 @@ export default function (app: any) {
   }
 
   function sendCommand (command: string) {
-    const pgn = {
-      pgn: 126208,
-      PGN: 126998,
-      dst: lastProps.deviceAddress,
-      'Function Code': 'Command',
-      '# of Parameters': 1,
+    const pgn = convertCamelCase(app, new PGN_126208_NmeaCommandGroupFunction({
+      numberOfParameters: 1,
       list: [
         {
-          Parameter: 2,
-          Value: `YD:${command}`
+          parameter: 2,
+          value: `YD:${command}`
         }
       ]
-    }
+    }, lastProps.deviceAddress))
+                                                        
     app.debug('send command %j', pgn)
     app.emit('nmea2000JsonOut', pgn)
   }
 
   function sendAllOff () {
-    const pgn: any = {
-      pgn: 127502,
-      dst: lastProps.deviceAddress,
-      'Switch Bank Instance': lastProps.bank,
-      "Instance": lastProps.bank
-    }
+    let pgn = new PGN_127502({
+      instance: lastProps.bank
+    }, lastProps.deviceAddress)
 
     for (let i: number = 1; i < 29; i++) {
-      pgn[`Switch${i}`] = 'Off'
+      (pgn as any)[`switch${i}`] = 'Off'
     }
-    app.emit('nmea2000JsonOut', pgn)
+    
+    app.emit('nmea2000JsonOut', convertCamelCase(app, pgn))
   }
 
   function playSound (sound: number) {
-    const pgn: any = {
-      pgn: 127502,
-      dst: lastProps.deviceAddress,
-      'Switch Bank Instance': lastProps.bank,
-      "Instance": lastProps.bank
-    }
+    const pgn = new PGN_127502({
+      instance: lastProps.bank
+    }, lastProps.deviceAddress)
+    
     
     for (let i: number = 1; i < 29; i++) {
-      pgn[`Switch${i}`] = i == sound ? 'On' : 'Off'
+      (pgn as any)[`switch${i}`] = i == sound ? 'On' : 'Off'
     }
     app.emit('nmea2000JsonOut', pgn)
   }

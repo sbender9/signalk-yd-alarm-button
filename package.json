@@ -15,6 +15,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@canboat/ts-pgns": "^1.10.2",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
